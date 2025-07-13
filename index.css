@@ -80,3 +80,10 @@
     padding: 0 20px;
     cursor: pointer;
 }
+
+.link-header{
+    list-style: none;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
