@@ -1,30 +1,19 @@
 import { useEffect, useState } from "react"
 import Shimmer from "./Shimmer"
 import { useParams } from "react-router-dom"
-import { RES_MENU_API } from "../utils/constants"
+import useRestaurantMenu from "../utils/useRestaurantMenu"
+ 
 const RestaurantMenu = () =>{
-    const [resinfo, setresInfo] = useState(null)
-    useEffect(()=>{
-      fetResData();
-    }, [])
-
     const {resid} = useParams()
+    const resInfo = useRestaurantMenu(resid) //using this custom hook we can make this component more readable and testable, this is a good practice of writing the code.
+   
 
-    const fetResData = async() =>{
-          const resData = await fetch(RES_MENU_API + resid)
-        const JsonResData = await resData.json();
-        console.log(JsonResData);
-        const restaurantdata = JsonResData.data
-        // .cards[4].groupedCard.cardGroupMap.REGULAR.cards[1]
-        setresInfo(restaurantdata)
-    }
-
-    if(resinfo === null){
+    if(resInfo === null){
         return <Shimmer />
     }
  
-     const {name, avgRating, costForTwoMessage} = resinfo?.cards[2]?.card?.card?.info
-     const {itemCards} = resinfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card?.categories[1]
+     const {name, avgRating, costForTwoMessage} = resInfo?.cards[2]?.card?.card?.info
+     const {itemCards} = resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card?.categories[1]
      console.log(itemCards)
     
 

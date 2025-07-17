@@ -3,37 +3,29 @@ import RestaurantCard from "./RestaurantCard"
 import { useEffect, useState } from "react"
 import Shimmer from "./Shimmer"
 import { Link } from "react-router-dom"
+import useRestaurantList from "../utils/useRestaurantList"
+import useOnlineStatus from "../utils/useOnlineStatus"
 
 const Body = () => {
     console.log("re rendering")
     //Creating state variable maintains the state of the component
-    const [listOfRestaurants, setlistOfRestaurants] = useState([])
     const [searchText, setSearchText] = useState("")
     //gridElements  infoWithStyle restaurants
-
     const [filteredRestaurant, setfilteredRestaurant] = useState([])
-
+    const [listOfRestaurants] = useRestaurantList() //used custom hook to shift the fetching logic to another place, then to change the filtered data and update it, used a useEffect.
+       
     useEffect(() => {
-        fetchData();
-    }, [])
+        setfilteredRestaurant(listOfRestaurants)
+    }, [listOfRestaurants])
 
-    const fetchData = async () => {
-        const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=21.1458004&lng=79.0881546&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING")
-        const JsonData = await data.json()
-        console.log(JsonData)
-        console.log(JsonData.data.cards[4].card.card.gridElements.infoWithStyle.restaurants);
-        //We can do optional chaining here - 
-        setlistOfRestaurants(JsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-        //we updated the filtered restaurant too. 
-        setfilteredRestaurant(JsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-        // console.log(JsonData.data.cards[4].card.card.gridElements.infoWithStyle.restaurants[0].info.id)
-
-    }
     //Code for Shimmer UI - 
     // if (listOfRestaurants.length === 0) {
     //     return <Shimmer />
     //     console.log("Shimmering")
-    // } //we can write conditional rendering like this or also using ternary operator ? 
+    // } //we can write conditional rendering like this or also using ternary operator ?
+    const onlineStatus = useOnlineStatus() 
+    if(onlineStatus === false) return <h1>Looks like you are not online</h1>
+    
     return listOfRestaurants.length === 0 ? <Shimmer /> : (
         
 
