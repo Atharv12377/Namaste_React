@@ -2,7 +2,7 @@ import React from 'react'
 
 function Grocery() {
   return (
-    <div>Grocery</div>
+    <div className='font-bold'>Grocery</div>
   )
 }
 

@@ -1,11 +1,13 @@
 
-import RestaurantCard from "./RestaurantCard"
+import RestaurantCard , {RestaurantsWithAreaName} from "./RestaurantCard"
 import { useEffect, useState } from "react"
 import Shimmer from "./Shimmer"
 import { Link } from "react-router-dom"
 import useRestaurantList from "../utils/useRestaurantList"
 import useOnlineStatus from "../utils/useOnlineStatus"
 
+
+const ResAreaName = RestaurantsWithAreaName(RestaurantCard)
 const Body = () => {
     console.log("re rendering")
     //Creating state variable maintains the state of the component
@@ -32,22 +34,19 @@ const Body = () => {
         <div className="Body">
             <div className="filter">
                 <div className="search">
-                    <input type="text" className="search-box" value={searchText} onChange={(e)=> {
+                    <input type="text" className="h-10 p-4 w-2xs border-2 border-black m-4" placeholder="Enter the restaurant" value={searchText} onChange={(e)=> {
                         setSearchText(e.target.value)
                     }} />
-                    <button onClick={() => {
+                    <button className=" h-10 w-20 cursor-pointer rounded-lg bg-amber-300" onClick={() => {
                         const filteredRes = listOfRestaurants.filter((restaurant) => {
                             return restaurant.info.name.toLowerCase().includes(searchText.toLowerCase())
                         })
                        setfilteredRestaurant(filteredRes)
                     }}>Search</button>
-                    <button onClick={() => {
-                        fetchData();
-                    }}>Back</button>
                 </div> 
 
 
-                <button className="filter-btn" onClick={() => { 
+                <button className="h-10  w-60 cursor-pointer p-4  border-2 border-black m-4" onClick={() => { 
                     console.log("hello")  
                     const filteredList = listOfRestaurants.filter((res) => {
                         return res.info.avgRating > 4
@@ -58,10 +57,12 @@ const Body = () => {
                 </button>
             </div>
 
-            <div className="res-container">
+            <div className="flex flex-wrap">
                 {
                     filteredRestaurant.map((restaurant, index) => (
-                       <Link to={"/restaurants/" +restaurant.info.id} key={restaurant.info.id}> <RestaurantCard  resData={restaurant} /> </Link>
+                       <Link to={"/restaurants/" +restaurant.info.id} key={restaurant.info.id}> 
+                       {restaurant.info.areaName? (<ResAreaName resData = {restaurant}/>) :  (<RestaurantCard  resData={restaurant} />) }
+                       </Link>
                     ))
                 }
 
