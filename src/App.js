@@ -9,6 +9,8 @@ import Error from "./components/Error";
 import RestaurantCard from "./components/RestaurantCard";
 import RestaurantMenu from "./components/RestaurantMenu";
 const Grocery = lazy(()=>import ("./components/Grocery"))
+import {Provider} from "react-redux"
+import appStore from "./Store/appStore";
 /*
  * Header
  * - Logo
@@ -26,10 +28,12 @@ const Grocery = lazy(()=>import ("./components/Grocery"))
  */
 
 const AppLayout = () => (
+  <Provider store={appStore}>
   <div className="App">
     <Header />
     <Outlet />
   </div>
+  </Provider>
 );
 
 const appRouter = createBrowserRouter([
