@@ -21,7 +21,7 @@ export const Header = () => {
                 <Link to={`/`} className="link-header"><li className=" border-r-2 p-3 border-r-black">Home</li></Link>
                 <Link to={"/about"} className="link-header"><li className=" border-r-2 p-3 border-r-black">About Us</li></Link>
                 <Link to={"/contact"} className="link-header"><li className=" border-r-2 p-3 border-r-black">Contact Us</li></Link>
-                <Link className="link-header"><li className=" border-r-2 p-3 border-r-black">Cart({cartItems.length})</li></Link>
+                <Link to={"/cart"} className="link-header"><li className=" border-r-2 p-3 border-r-black">Cart({cartItems.length})</li></Link>
                 <Link to={"/grocery"}
                 className="link-header"><li className=" border-r-2  p-3 border-r-black">Grocery</li></Link>
                 <button className="login" onClick={() =>{
